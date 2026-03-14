@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { ChevronDown, Syringe, FileText, HelpCircle, Calendar, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -58,6 +59,15 @@ const vaccinationSchedule = [
 const Resources = () => {
   return (
     <Layout>
+      <Helmet>
+        <title>Resources & FAQs | Care and Cure Fertility Centre - Parenting & Health Tips</title>
+        <meta name="description" content="Access vaccination schedules, FAQs, health tips for parents, and downloadable resources at Care and Cure Fertility Centre." />
+        <meta name="keywords" content="FAQs, vaccination schedule, health tips, parenting advice, resources, vaccination chart" />
+        <meta property="og:title" content="Resources & FAQs | Care and Cure Fertility Centre" />
+        <meta property="og:description" content="Expert resources and advice for child health and parenting." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://careandcure.com/resources" />
+      </Helmet>
       {/* Hero Section */}
       <section className="section-padding bg-gradient-to-br from-medical-blue-light via-background to-background">
         <div className="container mx-auto container-padding">

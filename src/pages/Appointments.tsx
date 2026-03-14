@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Phone, MessageCircle, Calendar, Clock, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -8,9 +9,12 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import Layout from '@/components/layout/Layout';
+import { useAppData } from '@/store/AppDataContext';
+import { sendAppointmentConfirmation } from '@/lib/whatsappApi';
 
 const Appointments = () => {
   const { toast } = useToast();
+  const { actions } = useAppData();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -45,22 +49,85 @@ const Appointments = () => {
     }
 
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
+
+    const doctorName =
+      formData.doctor === 'dr-mohit' ? 'Dr. Mohit Singhal' : 'Dr. Himanshu Singhal';
+
+    let patientId: string | undefined;
+    if (formData.email) {
+      const existing = actions.getPatientByEmail(formData.email);
+      if (existing) {
+        patientId = existing.id;
+      }
+    }
+
+    if (!patientId) {
+      const nameParts = formData.name.trim().split(' ');
+      const firstName = nameParts[0];
+      const lastName = nameParts.slice(1).join(' ') || '';
+      const created = actions.registerPatient({
+        firstName,
+        lastName,
+        email: formData.email || `${Date.now()}@guest.local`,
+        phone: formData.phone,
+        motherName: '',
+        fatherName: '',
+        password: Math.random().toString(36).slice(2, 10),
+      });
+      patientId = created.id;
+    }
+
+    const timeSlot =
+      formData.time === 'morning'
+        ? '09:00'
+        : formData.time === 'afternoon'
+        ? '13:00'
+        : formData.time === 'evening'
+        ? '17:00'
+        : '';
+
+    if (formData.date && timeSlot) {
+      actions.scheduleAppointment({
+        patientId,
+        doctorName,
+        date: formData.date,
+        time: timeSlot,
+        reason: formData.reason,
+      });
+
+      // Send WhatsApp confirmation to patient
+      const patientName = formData.name.trim();
+      const { ok, error } = await sendAppointmentConfirmation({
+        to: formData.phone,
+        doctorName,
+        patientName,
+        patientAge: 'N/A',
+        date: formData.date,
+        time: timeSlot,
+        reason: formData.reason || 'General',
+      });
+      if (!ok && error) {
+        console.warn('WhatsApp notification failed:', error);
+      }
+    }
+
     setIsSubmitting(false);
     setIsSubmitted(true);
-    
+
     toast({
       title: 'Appointment Request Submitted!',
-      description: 'We will contact you shortly to confirm your appointment.',
+      description: 'Your appointment has been added to our system.',
     });
   };
 
   if (isSubmitted) {
     return (
       <Layout>
+        <Helmet>
+          <title>Appointment Submitted | Care & Cure Centre</title>
+          <meta name="description" content="Your appointment request has been submitted successfully. We will contact you shortly to confirm." />
+          <meta name="robots" content="noindex, follow" />
+        </Helmet>
         <section className="section-padding bg-background min-h-[60vh] flex items-center">
           <div className="container mx-auto container-padding">
             <div className="max-w-lg mx-auto text-center">
@@ -69,14 +136,14 @@ const Appointments = () => {
               </div>
               <h1 className="text-3xl md:text-4xl font-bold mb-4">Appointment Request Submitted!</h1>
               <p className="text-muted-foreground mb-8">
-                Thank you for choosing Care and Cure Centre. Our team will contact you shortly to confirm 
-                your appointment with {formData.doctor === 'dr-mohit' ? 'Dr. Mohit Singhal' : 'Dr. Himanshu Singhal'}.
+                Thank you for choosing Care & Cure Centre. Your request has been sent to our admin for verification. 
+                Once verified, your appointment with {formData.doctor === 'dr-mohit' ? 'Dr. Mohit Singhal' : 'Dr. Himanshu Singhal'} will be confirmed and visible in your dashboard.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button onClick={() => setIsSubmitted(false)} variant="outline">
                   Book Another Appointment
                 </Button>
-                <a href="tel:+919876543210">
+                <a href="tel:+919972899728">
                   <Button className="cta-button w-full sm:w-auto">
                     <Phone className="w-4 h-4" />
                     Call Us Now
@@ -92,6 +159,15 @@ const Appointments = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>Book Appointment | Care & Cure Centre - Bangalore</title>
+        <meta name="description" content="Book your appointment with Dr. Mohit Singhal (Pediatrician) or Dr. Himanshu Singhal (Fertility Specialist) at Care & Cure Centre in Bangalore." />
+        <meta name="keywords" content="book appointment, online booking, pediatrician appointment, fertility consultation" />
+        <meta property="og:title" content="Book Appointment | Care & Cure Centre" />
+        <meta property="og:description" content="Schedule your consultation with our expert doctors." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://careandcure.com/appointments" />
+      </Helmet>
       {/* Hero Section */}
       <section className="section-padding bg-gradient-to-br from-medical-blue-light via-background to-background">
         <div className="container mx-auto container-padding">
@@ -110,7 +186,7 @@ const Appointments = () => {
           <div className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {/* WhatsApp */}
             <a 
-              href="https://wa.me/919876543210?text=Hello! I would like to book an appointment at Care and Cure Centre."
+              href="https://wa.me/919880928877?text=Hello! I would like to book an appointment at Care & Cure Centre."
               target="_blank"
               rel="noopener noreferrer"
               className="group"
@@ -127,14 +203,14 @@ const Appointments = () => {
             </a>
 
             {/* Phone */}
-            <a href="tel:+919876543210" className="group">
+            <a href="tel:+919972899728" className="group">
               <Card className="hover:shadow-lg transition-all hover:-translate-y-1 h-full">
                 <CardContent className="p-6 text-center">
                   <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                     <Phone className="w-7 h-7 text-primary" />
                   </div>
                   <h3 className="font-semibold mb-2">Call Us</h3>
-                  <p className="text-sm text-muted-foreground">+91 98765 43210</p>
+                  <p className="text-sm text-muted-foreground">+91 9972899728</p>
                 </CardContent>
               </Card>
             </a>
@@ -184,7 +260,7 @@ const Appointments = () => {
                       <Input
                         id="phone"
                         type="tel"
-                        placeholder="+91 98765 43210"
+                        placeholder="+91 9972899728"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         required

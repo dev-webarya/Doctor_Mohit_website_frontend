@@ -1,8 +1,8 @@
 import { MessageCircle } from 'lucide-react';
 
 const WhatsAppButton = () => {
-  const phoneNumber = '919876543210'; // Replace with actual number
-  const message = encodeURIComponent('Hello! I would like to book an appointment at Care and Cure Centre.');
+  const phoneNumber = '919880928877'; // WhatsApp contact number
+  const message = encodeURIComponent('Hello! I would like to book an appointment at Care and Cure Fertility Centre.');
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
   return (
@@ -10,7 +10,7 @@ const WhatsAppButton = () => {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 group"
+      className="fixed bottom-32 right-6 z-50 group"
       aria-label="Chat on WhatsApp"
     >
       <div className="relative">

@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin, Clock, MessageCircle } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Layout from '@/components/layout/Layout';
@@ -6,6 +7,15 @@ import Layout from '@/components/layout/Layout';
 const Contact = () => {
   return (
     <Layout>
+      <Helmet>
+        <title>Contact Us | Care & Cure Centre - Bangalore</title>
+        <meta name="description" content="Contact Care & Cure Centre in Bangalore. Phone: +91 9972899728. Email: info@careandcure.com. Visit our clinic in Kundalahalli for pediatric and fertility services. Complete Women and Child Health Care." />
+        <meta name="keywords" content="contact us, clinic location, phone number, email, directions, bangalore clinic" />
+        <meta property="og:title" content="Contact Us | Care & Cure Centre" />
+        <meta property="og:description" content="Get in touch with Care & Cure Centre for appointments and inquiries." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://careandcure.com/contact" />
+      </Helmet>
       {/* Hero Section */}
       <section className="section-padding bg-gradient-to-br from-medical-blue-light via-background to-background">
         <div className="container mx-auto container-padding">
@@ -23,14 +33,14 @@ const Contact = () => {
         <div className="container mx-auto container-padding">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Phone */}
-            <a href="tel:+919876543210" className="group">
+            <a href="tel: +91 99728 99728" className="group">
               <Card className="hover:shadow-lg transition-all hover:-translate-y-1 h-full">
                 <CardContent className="p-6 text-center">
                   <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                     <Phone className="w-7 h-7 text-primary" />
                   </div>
                   <h3 className="font-semibold mb-2">Phone</h3>
-                  <p className="text-primary font-medium">+91 98765 43210</p>
+                  <p className="text-primary font-medium whitespace-nowrap"> +91 99728 99728</p>
                   <p className="text-sm text-muted-foreground mt-1">Tap to call</p>
                 </CardContent>
               </Card>
@@ -38,7 +48,7 @@ const Contact = () => {
 
             {/* WhatsApp */}
             <a 
-              href="https://wa.me/919876543210?text=Hello! I would like to know more about Care and Cure Centre."
+              href="https://wa.me/919880928877?text=Hello! I would like to know more about Care & Cure Centre."
               target="_blank"
               rel="noopener noreferrer"
               className="group"
@@ -49,21 +59,21 @@ const Contact = () => {
                     <MessageCircle className="w-7 h-7 text-[hsl(142_70%_45%)]" />
                   </div>
                   <h3 className="font-semibold mb-2">WhatsApp</h3>
-                  <p className="text-[hsl(142_70%_45%)] font-medium">+91 98765 43210</p>
+                  <p className="text-[hsl(142_70%_45%)] font-medium"> +91 9880928877</p>
                   <p className="text-sm text-muted-foreground mt-1">Chat with us</p>
                 </CardContent>
               </Card>
             </a>
 
             {/* Email */}
-            <a href="mailto:info@careandcure.in" className="group">
+            <a href="mailto:info@careandcure.com" className="group">
               <Card className="hover:shadow-lg transition-all hover:-translate-y-1 h-full">
                 <CardContent className="p-6 text-center">
                   <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-secondary/10 flex items-center justify-center group-hover:bg-secondary/20 transition-colors">
                     <Mail className="w-7 h-7 text-secondary" />
                   </div>
                   <h3 className="font-semibold mb-2">Email</h3>
-                  <p className="text-secondary font-medium">info@careandcure.in</p>
+                  <p className="text-secondary font-medium">info@careandcure.com</p>
                   <p className="text-sm text-muted-foreground mt-1">Send us an email</p>
                 </CardContent>
               </Card>
@@ -76,8 +86,9 @@ const Contact = () => {
                   <Clock className="w-7 h-7 text-accent" />
                 </div>
                 <h3 className="font-semibold mb-2">Clinic Hours</h3>
-                <p className="text-muted-foreground text-sm">Mon - Sat: 9AM - 8PM</p>
-                <p className="text-muted-foreground text-sm">Sunday: 10AM - 2PM</p>
+                <p className="text-muted-foreground text-sm">Monday–Friday: <span className="whitespace-nowrap">9:00 AM – 10:00 AM</span> & <span className="whitespace-nowrap">5:45 PM – 9:00 PM</span></p>
+                <p className="text-muted-foreground text-sm">Saturday–Sunday: <span className="whitespace-nowrap">10:30 AM – 2:00 PM</span></p>
+                <p className="text-muted-foreground text-sm">Wednesday: Closed</p>
               </CardContent>
             </Card>
           </div>
@@ -101,10 +112,9 @@ const Contact = () => {
                     <div>
                       <h3 className="font-semibold mb-2">Address</h3>
                       <p className="text-muted-foreground">
-                        Care and Cure Centre<br />
-                        123 Healthcare Avenue<br />
-                        Koramangala, Bangalore 560034<br />
-                        Karnataka, India
+                        Care & Cure Centre<br />
+                       1st floor, Namrata Icon, ITPL Main Rd, above Midas Daily Super Market, Kundalahalli Extension, Bengaluru, Karnataka 560037<br />
+                        
                       </p>
                     </div>
                   </div>
@@ -115,14 +125,15 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold mb-2">Clinic Timings</h3>
-                      <div className="text-muted-foreground space-y-1">
-                        <div className="flex justify-between gap-8">
-                          <span>Monday - Saturday</span>
-                          <span className="font-medium text-foreground">9:00 AM - 8:00 PM</span>
+                      <div className="text-muted-foreground space-y-3">
+                        <div className="flex flex-col gap-1">
+                          <span>Monday–Friday: <span className="whitespace-nowrap">9:00 AM – 10:00 AM</span> & <span className="whitespace-nowrap">5:45 PM – 9:00 PM</span></span>
                         </div>
-                        <div className="flex justify-between gap-8">
-                          <span>Sunday</span>
-                          <span className="font-medium text-foreground">10:00 AM - 2:00 PM</span>
+                        <div className="flex flex-col gap-1">
+                          <span>Saturday–Sunday: <span className="whitespace-nowrap">10:30 AM – 2:00 PM</span></span>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          <span>Wednesday: Closed</span>
                         </div>
                       </div>
                     </div>
@@ -135,15 +146,15 @@ const Contact = () => {
                 <ul className="space-y-2 text-muted-foreground">
                   <li className="flex items-start gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
-                    <span>Near Koramangala Water Tank</span>
+                    <span>Kundalahalli Extension Area</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
-                    <span>Opposite City Center Mall</span>
+                    <span>Above Midas Daily Super Market</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
-                    <span>5 minutes from Sony World Junction</span>
+                    <span>ITPL Main Road</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
@@ -154,7 +165,7 @@ const Contact = () => {
 
               <div className="mt-8 flex flex-col sm:flex-row gap-4">
                 <a 
-                  href="https://www.google.com/maps/dir/?api=1&destination=12.934533,77.614268" 
+                  href="https://www.google.com/maps/place/Kundalahalli,+Brookefield,+Bengaluru,+Karnataka/@12.9677234,77.7163806,16z/data=!3m1!4b1!4m6!3m5!1s0x3bae1223dfa82e0f:0x6ab167aa7f218353!8m2!3d12.9689968!4d77.7208853!16s%2Fg%2F11fl3zbxtk?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D" 
                   target="_blank" 
                   rel="noopener noreferrer"
                 >
@@ -163,7 +174,7 @@ const Contact = () => {
                     Get Directions
                   </Button>
                 </a>
-                <a href="tel:+919876543210">
+                <a href="tel: +919972899728">
                   <Button variant="outline" className="w-full sm:w-auto">
                     <Phone className="w-4 h-4" />
                     Call for Directions
@@ -175,36 +186,16 @@ const Contact = () => {
             {/* Map */}
             <div className="aspect-square lg:aspect-auto rounded-2xl overflow-hidden border border-border">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.5965239566977!2d77.61426831482225!3d12.934533890876977!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1459dd44a355%3A0x8c89e1e89a6a35e9!2sKoramangala%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.936623659163!2d77.7208853!3d12.9689968!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1223dfa82e0f:0x6ab167aa7f218353!2sKundalahalli!5e0!3m2!1sen!2sin!4v1707988800000!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
                 style={{ border: 0, minHeight: '400px' }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Care and Cure Centre Location"
+                title="Care & Cure Centre Location"
               />
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Emergency Contact */}
-      <section className="py-12 bg-destructive/5 border-y border-destructive/20">
-        <div className="container mx-auto container-padding">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div>
-              <h3 className="text-xl font-bold text-destructive mb-2">Emergency Contact</h3>
-              <p className="text-muted-foreground">
-                For urgent pediatric or neonatal emergencies, please call immediately.
-              </p>
-            </div>
-            <a href="tel:+919876543210">
-              <Button size="lg" variant="destructive" className="w-full md:w-auto">
-                <Phone className="w-5 h-5" />
-                Call Emergency Line
-              </Button>
-            </a>
           </div>
         </div>
       </section>

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { Phone, MessageCircle, Calendar, Star, Users, Award, Clock, Stethoscope, Baby, Heart, Syringe, Activity, Apple, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -7,6 +8,16 @@ import Layout from '@/components/layout/Layout';
 const Index = () => {
   return (
     <Layout>
+      <Helmet>
+        <title>Care & Cure Centre | Complete Women and Child Health Care in Bangalore</title>
+        <meta name="description" content="Expert pediatric, neonatal, and fertility care in Bangalore. Dr. Mohit Singhal & Dr. Himanshu Singhal. Trusted by 100,000+ families. Book your appointment today!" />
+        <meta name="keywords" content="pediatrician bangalore, neonatologist bangalore, fertility specialist bangalore, best pediatric clinic, child care, newborn care, IVF clinic, koramangala, bengaluru" />
+        <meta property="og:title" content="Care & Cure Centre | Complete Women and Child Health Care in Bangalore" />
+        <meta property="og:description" content="Expert pediatric, neonatal, and fertility care. Trusted by 100,000+ families in Bangalore." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:title" content="Care & Cure Centre | Home" />
+        <link rel="canonical" href="https://careandcure.com" />
+      </Helmet>
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-medical-blue-light via-background to-warm-peach overflow-hidden">
         <div className="container mx-auto container-padding section-padding">
@@ -14,7 +25,7 @@ const Index = () => {
             <div className="animate-fade-in">
               <div className="trust-badge mb-6">
                 <Award className="w-4 h-4" />
-                Trusted by 10,000+ Families
+                Trusted by 100,000+ Families
               </div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
                 Caring for Your <span className="text-primary">Little Ones</span> & <span className="text-secondary">Growing Families</span>
@@ -32,7 +43,7 @@ const Index = () => {
                   </Button>
                 </Link>
                 <a 
-                  href="https://wa.me/919876543210?text=Hello! I would like to book an appointment."
+                  href="https://wa.me/919880928877?text=Hello! I would like to book an appointment."
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -43,38 +54,16 @@ const Index = () => {
                 </a>
               </div>
 
-              {/* Quick Contact */}
-              <div className="flex flex-col sm:flex-row gap-6">
-                <a href="tel:+919876543210" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Phone className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground">Call Us</p>
-                    <p className="font-semibold text-foreground">+91 98765 43210</p>
-                  </div>
-                </a>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Clock className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground">Clinic Hours</p>
-                    <p className="font-semibold text-foreground">Mon-Sat: 9AM-8PM</p>
-                  </div>
-                </div>
               </div>
-            </div>
 
             {/* Hero Image Placeholder */}
             <div className="relative animate-slide-in-right">
-              <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center border border-border/50 overflow-hidden">
-                <div className="text-center p-8">
-                  <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Stethoscope className="w-12 h-12 text-primary" />
-                  </div>
-                  <p className="text-muted-foreground">Doctor/Clinic Photo</p>
-                </div>
+              <div className="aspect-[4/3] rounded-2xl border border-border/50 overflow-hidden">
+                <img 
+                  src="/image.png" 
+                  alt="Doctor/Clinic Photo" 
+                  className="w-full h-full object-cover"
+                />
               </div>
               {/* Floating Stats Card */}
               <div className="absolute -bottom-6 -left-6 md:left-auto md:-right-6 bg-card rounded-xl shadow-lg p-4 border border-border/50 animate-float">
@@ -98,8 +87,8 @@ const Index = () => {
         <div className="container mx-auto container-padding">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { icon: Users, value: '10,000+', label: 'Happy Families' },
-              { icon: Award, value: '20+', label: 'Years Experience' },
+              { icon: Users, value: '100,000+', label: 'Happy Families' },
+              { icon: Award, value: '23+', label: 'Years Experience' },
               { icon: Star, value: '4.9', label: 'Patient Rating' },
               { icon: Clock, value: '24/7', label: 'Emergency Care' },
             ].map((stat) => (
@@ -116,7 +105,7 @@ const Index = () => {
       </section>
 
       {/* Our Doctors */}
-      <section className="section-padding bg-background">
+      <section className="section-padding bg-gradient-to-b from-muted/30 to-background">
         <div className="container mx-auto container-padding">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Meet Our Expert Doctors</h2>
@@ -127,58 +116,80 @@ const Index = () => {
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Dr. Mohit Singhal */}
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="aspect-[4/3] bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-24 h-24 mx-auto mb-3 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Baby className="w-12 h-12 text-primary" />
-                  </div>
-                  <p className="text-sm text-muted-foreground">Doctor Photo</p>
-                </div>
-              </div>
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold mb-1">Dr. Mohit Singhal</h3>
-                <p className="text-primary font-medium mb-3">Pediatrics & Neonatology</p>
-                <div className="space-y-2 text-sm text-muted-foreground mb-4">
-                  <p>MBBS, MD (Pediatrics), DNB (Neonatology)</p>
-                  <p>Fellowship PGPN - Boston, USA</p>
-                  <p>20+ Years Experience</p>
-                </div>
-                <Link to="/about">
-                  <Button variant="outline" className="w-full">View Profile</Button>
-                </Link>
-              </CardContent>
-            </Card>
+<Card className="overflow-hidden hover:shadow-lg transition-shadow">
+
+  {/* Doctor Photo */}
+ <div className="aspect-[4/4] bg-slate-100 overflow-hidden">
+  <img
+    src="/Dr. Mohit.png"
+    alt="Dr. Mohit Singhal"
+    className="h-full w-full object-cover object-center"
+  />
+</div>
+
+
+  <CardContent className="p-6">
+    <h3 className="text-xl font-bold mb-1">Dr. Mohit Singhal</h3>
+    <p className="text-primary font-medium mb-3">
+      Pediatrics & Neonatology
+    </p>
+
+    <div className="space-y-2 text-sm text-muted-foreground mb-4">
+      <p>MBBS, MD (Pediatrics), DNB (Neonatology)</p>
+      <p>Fellowship PGPN - Boston, USA</p>
+      <p>23+ Years Experience</p>
+    </div>
+
+    <Link to="/about">
+      <Button variant="outline" className="w-full">
+        View Profile
+      </Button>
+    </Link>
+  </CardContent>
+
+</Card>
+
+
 
             {/* Dr. Himanshu Singhal */}
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="aspect-[4/3] bg-gradient-to-br from-secondary/10 to-secondary/5 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-24 h-24 mx-auto mb-3 rounded-full bg-secondary/20 flex items-center justify-center">
-                    <Heart className="w-12 h-12 text-secondary" />
-                  </div>
-                  <p className="text-sm text-muted-foreground">Doctor Photo</p>
-                </div>
-              </div>
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold mb-1">Dr. Himanshu Singhal</h3>
-                <p className="text-secondary font-medium mb-3">Fertility Specialist</p>
-                <div className="space-y-2 text-sm text-muted-foreground mb-4">
-                  <p>Fertility & Reproductive Medicine Expert</p>
-                  <p>Advanced IVF & Infertility Treatment</p>
-                  <p>Compassionate Family Care</p>
-                </div>
-                <Link to="/about">
-                  <Button variant="outline" className="w-full">View Profile</Button>
-                </Link>
-              </CardContent>
-            </Card>
+<Card className="overflow-hidden hover:shadow-lg transition-shadow">
+
+  {/* Doctor Photo */}
+  <div className="aspect-[4/4] bg-slate-100 overflow-hidden">
+    <img
+      src="/Dr.Himanshu.png"
+      alt="Dr. Himanshu Singhal"
+      className="h-full w-full object-cover object-center"
+    />
+  </div>
+
+  <CardContent className="p-6">
+    <h3 className="text-xl font-bold mb-1">Dr. Himanshu Singhal</h3>
+    <p className="text-primary font-medium mb-3">
+      Fertility Specialist
+    </p>
+
+    <div className="space-y-2 text-sm text-muted-foreground mb-4">
+      <p>Fertility & Reproductive Medicine Expert</p>
+      <p>Advanced IVF & Infertility Treatment</p>
+      <p>15+ Years Experience</p>
+    </div>
+
+    <Link to="/about">
+      <Button variant="outline" className="w-full">
+        View Profile
+      </Button>
+    </Link>
+  </CardContent>
+
+</Card>
+
           </div>
         </div>
       </section>
 
       {/* Services Overview */}
-      <section className="section-padding bg-muted/50">
+      <section className="section-padding bg-gradient-to-r from-medical-blue-light via-background to-warm-peach">
         <div className="container mx-auto container-padding">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Services</h2>
@@ -194,7 +205,10 @@ const Index = () => {
               { icon: Syringe, title: 'Vaccinations', description: 'Complete immunization schedules and vaccine counseling for your child.' },
               { icon: Activity, title: 'Growth Clinic', description: 'Monitoring and managing growth & developmental milestones.' },
               { icon: Apple, title: 'Nutrition Counseling', description: 'Personalized dietary guidance for healthy child development.' },
-              { icon: Heart, title: 'Fertility Services', description: 'Comprehensive fertility treatments and reproductive healthcare.' },
+              { icon: Heart, title: 'IVF (In Vitro Fertilization)', description: 'The most well-known treatment where eggs are fertilized in a lab and embryos are transferred to the uterus.' },
+              { icon: Heart, title: 'ICSI (Intracytoplasmic Sperm Injection)', description: 'An advanced IVF technique where a single sperm is injected directly into an egg, often used for male infertility.' },
+              { icon: Heart, title: 'Laser-Assisted Hatching', description: 'Creating a small opening in the embryo\'s outer shell to help it attach to the uterus.' },
+              { icon: Heart, title: 'Fertility Services', description: 'Comprehensive fertility treatments and reproductive healthcare for couples seeking family planning.' },
             ].map((service) => (
               <Card key={service.title} className="hover:shadow-lg transition-all hover:-translate-y-1 cursor-pointer group">
                 <CardContent className="p-6">
@@ -217,7 +231,7 @@ const Index = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="section-padding bg-background">
+      <section className="section-padding bg-gradient-to-b from-muted/50 to-background">
         <div className="container mx-auto container-padding">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">What Parents Say</h2>
@@ -229,7 +243,7 @@ const Index = () => {
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {[
               { name: 'Priya Sharma', text: 'Dr. Mohit is incredibly patient and thorough. My son was very comfortable during the consultation. Highly recommend!', rating: 5 },
-              { name: 'Rahul Menon', text: 'The newborn care at Care and Cure is exceptional. The team was with us 24/7 during our baby\'s NICU stay.', rating: 5 },
+              { name: 'Rahul Menon', text: 'The newborn care at Care & Cure Centre is exceptional. Dr. Mohit provided excellent consultation and guidance for my newborn. Highly satisfied with the care.', rating: 5 },
               { name: 'Anita Krishnan', text: 'After years of trying, Dr. Himanshu helped us start our family. Forever grateful for her expertise and compassion.', rating: 5 },
             ].map((testimonial, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow">
@@ -249,7 +263,7 @@ const Index = () => {
       </section>
 
       {/* Location Section */}
-      <section className="section-padding bg-muted/50">
+      <section className="section-padding bg-gradient-to-br from-muted/30 via-background to-muted/20">
         <div className="container mx-auto container-padding">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -261,7 +275,8 @@ const Index = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold mb-1">Address</h4>
-                    <p className="text-muted-foreground">123 Healthcare Avenue, Koramangala, Bangalore 560034</p>
+                    <p className="text-muted-foreground">1st Floor, Namrata Icon, ITPL Main Road,Above Midas Daily Super Market,Kundalahalli Extension,
+Bengaluru, Karnataka – 560037</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -270,8 +285,9 @@ const Index = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold mb-1">Clinic Hours</h4>
-                    <p className="text-muted-foreground">Mon - Sat: 9:00 AM - 8:00 PM</p>
-                    <p className="text-muted-foreground">Sunday: 10:00 AM - 2:00 PM</p>
+                    <p className="text-muted-foreground">Monday–Friday: 9:00 AM – 10:00 AM & 5:45 PM – 9:00 PM</p>
+                    <p className="text-muted-foreground">Saturday–Sunday: 10:30 AM – 2:00 PM</p>
+                    <p className="text-muted-foreground">Wednesday: Closed</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -280,26 +296,32 @@ const Index = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold mb-1">Contact</h4>
-                    <a href="tel:+919876543210" className="text-primary hover:underline">+91 98765 43210</a>
+                    <a href="tel:+919972899728" className="text-primary hover:underline">+91 9972899728</a>
                   </div>
                 </div>
               </div>
-              <Link to="/contact">
-                <Button className="cta-button">Get Directions</Button>
-              </Link>
+              <Button asChild className="cta-button">
+                <a
+                  href="https://www.google.com/maps/place/Kundalahalli,+Brookefield,+Bengaluru,+Karnataka/@12.9677234,77.7163806,16z/data=!3m1!4b1!4m6!3m5!1s0x3bae1223dfa82e0f:0x6ab167aa7f218353!8m2!3d12.9689968!4d77.7208853!16s%2Fg%2F11fl3zbxtk?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Get Directions
+                </a>
+              </Button>
             </div>
 
             {/* Map Placeholder */}
             <div className="aspect-[4/3] rounded-2xl bg-muted border border-border overflow-hidden">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.5965239566977!2d77.61426831482225!3d12.934533890876977!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1459dd44a355%3A0x8c89e1e89a6a35e9!2sKoramangala%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.936623659163!2d77.7208853!3d12.9689968!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1223dfa82e0f:0x6ab167aa7f218353!2sKundalahalli!5e0!3m2!1sen!2sin!4v1707988800000!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Care and Cure Centre Location"
+                title="Care & Cure Centre Location"
               />
             </div>
           </div>
@@ -320,7 +342,7 @@ const Index = () => {
                 Book Online
               </Button>
             </Link>
-            <a href="tel:+919876543210">
+            <a href="tel:+919972899728">
               <Button size="lg" variant="outline" className="w-full sm:w-auto text-base bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
                 <Phone className="w-5 h-5" />
                 Call Now

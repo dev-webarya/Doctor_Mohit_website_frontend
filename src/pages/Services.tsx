@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { Stethoscope, Baby, Syringe, Activity, Apple, Heart, Leaf, Brain, Wind, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -73,11 +74,20 @@ const services = [
 const Services = () => {
   return (
     <Layout>
+      <Helmet>
+        <title>Services | Care and Cure Fertility Centre - Pediatric, Neonatal & Fertility Care</title>
+        <meta name="description" content="Comprehensive healthcare services including pediatric care, neonatal care, vaccinations, growth clinics, fertility treatments, and more in Bangalore." />
+        <meta name="keywords" content="pediatric services, neonatal care, vaccinations, fertility treatment, growth clinic, child health, asthma care, nutrition counseling" />
+        <meta property="og:title" content="Services | Care and Cure Fertility Centre" />
+        <meta property="og:description" content="Comprehensive healthcare services for children and families in Bangalore." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://careandcure.com/services" />
+      </Helmet>
       {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-br from-medical-blue-light via-background to-background">
+      <section className="py-4 md:py-6 bg-gradient-to-br from-medical-blue-light via-background to-background">
         <div className="container mx-auto container-padding">
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Our Services</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-3">Our Services</h1>
             <p className="text-lg text-muted-foreground">
               Comprehensive healthcare services for children and families. From routine checkups to specialized care, 
               we're here for every stage of your child's health journey.
@@ -87,9 +97,9 @@ const Services = () => {
       </section>
 
       {/* Services Grid */}
-      <section className="section-padding bg-background">
+      <section className="py-6 md:py-8 bg-gradient-to-br from-warm-peach via-background to-medical-blue-light/20">
         <div className="container mx-auto container-padding">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {services.map((service) => (
               <Card key={service.title} className="hover:shadow-lg transition-all hover:-translate-y-1 group overflow-hidden">
                 <CardContent className="p-6">
@@ -127,9 +137,9 @@ const Services = () => {
       </section>
 
       {/* Pediatric vs Fertility Section */}
-      <section className="section-padding bg-muted/50">
+      <section className="section-padding bg-gradient-to-r from-muted/50 through-background to-muted/30">
         <div className="container mx-auto container-padding">
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-4">
             {/* Pediatric Services */}
             <Card className="overflow-hidden">
               <div className="h-2 bg-primary" />
