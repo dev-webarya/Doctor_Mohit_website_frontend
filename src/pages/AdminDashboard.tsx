@@ -4,14 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAppData } from "@/store/AppDataContext";
-import { sendAppointmentConfirmation, sendVaccinationReminder, getVaccinationReminderWaUrl } from "@/lib/whatsappApi";
+import { sendAppointmentConfirmation, sendVaccinationReminder, getVaccinationReminderWaUrl, getAppointmentConfirmedWaUrl } from "@/lib/whatsappApi";
 import { Helmet } from "react-helmet-async";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 import { CalendarCheck, UserCheck, Clock, Bell, Send } from "lucide-react";
 
 const AdminDashboard = () => {
   const { data, actions } = useAppData();
+  const { toast } = useToast();
   const [verifying, setVerifying] = useState<string | null>(null);
   const [sendingVac, setSendingVac] = useState<string | null>(null);
   const [notifyingAll, setNotifyingAll] = useState(false);
@@ -19,19 +21,40 @@ const AdminDashboard = () => {
   const handleVerify = async (a: { id: string; patientId: string; doctorName: string; date: string; time: string; reason?: string }) => {
     const patient = data.patients.find((p) => p.id === a.patientId);
     actions.verifyAppointment(a.id);
+    const patientName = patient ? `${patient.firstName} ${patient.lastName}`.trim() : "";
     if (patient?.phone) {
       setVerifying(a.id);
-      const { ok, error } = await sendAppointmentConfirmation({
+      const { ok } = await sendAppointmentConfirmation({
         to: patient.phone,
         doctorName: a.doctorName,
-        patientName: `${patient.firstName} ${patient.lastName}`.trim(),
+        patientName,
         patientAge: "N/A",
         date: a.date,
         time: a.time,
         reason: a.reason || "General",
       });
-      if (!ok && error) console.warn("WhatsApp notification failed:", error);
+      if (ok) {
+        toast({
+          title: "Appointment verified",
+          description: "Patient has been notified on WhatsApp. They can come for their appointment.",
+        });
+      } else {
+        window.open(
+          getAppointmentConfirmedWaUrl(patient.phone, patientName, a.doctorName, a.date, a.time, a.reason),
+          "_blank",
+          "noopener,noreferrer"
+        );
+        toast({
+          title: "Appointment verified",
+          description: "WhatsApp opened to send confirmation to the patient. Please send the pre-filled message.",
+        });
+      }
       setVerifying(null);
+    } else {
+      toast({
+        title: "Appointment verified",
+        description: "Patient has no phone number on file. They can check their dashboard for status.",
+      });
     }
   };
 
@@ -39,17 +62,40 @@ const AdminDashboard = () => {
     if (!appointment.patientId || !appointment.doctorName || !appointment.date || !appointment.time) return;
     const patient = data.patients.find((p) => p.id === appointment.patientId);
     actions.scheduleAppointment(appointment, true);
+    const patientName = patient ? `${patient.firstName} ${patient.lastName}`.trim() : "";
     if (patient?.phone) {
-      const { ok, error } = await sendAppointmentConfirmation({
+      const { ok } = await sendAppointmentConfirmation({
         to: patient.phone,
         doctorName: appointment.doctorName,
-        patientName: `${patient.firstName} ${patient.lastName}`.trim(),
+        patientName,
         patientAge: "N/A",
         date: appointment.date,
         time: appointment.time,
         reason: appointment.reason || "General",
       });
-      if (!ok && error) console.warn("WhatsApp notification failed:", error);
+      if (ok) {
+        toast({
+          title: "Appointment scheduled",
+          description: "Patient has been notified on WhatsApp.",
+        });
+      } else {
+        window.open(
+          getAppointmentConfirmedWaUrl(
+            patient.phone,
+            patientName,
+            appointment.doctorName,
+            appointment.date,
+            appointment.time,
+            appointment.reason
+          ),
+          "_blank",
+          "noopener,noreferrer"
+        );
+        toast({
+          title: "Appointment scheduled",
+          description: "WhatsApp opened to send confirmation to the patient. Please send the pre-filled message.",
+        });
+      }
     }
     setAppointment({ patientId: "", doctorName: "", date: "", time: "", reason: "" });
   };

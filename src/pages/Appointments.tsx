@@ -10,7 +10,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast';
 import Layout from '@/components/layout/Layout';
 import { useAppData } from '@/store/AppDataContext';
-import { sendAppointmentConfirmation } from '@/lib/whatsappApi';
 
 const Appointments = () => {
   const { toast } = useToast();
@@ -94,21 +93,7 @@ const Appointments = () => {
         time: timeSlot,
         reason: formData.reason,
       });
-
-      // Send WhatsApp confirmation to patient
-      const patientName = formData.name.trim();
-      const { ok, error } = await sendAppointmentConfirmation({
-        to: formData.phone,
-        doctorName,
-        patientName,
-        patientAge: 'N/A',
-        date: formData.date,
-        time: timeSlot,
-        reason: formData.reason || 'General',
-      });
-      if (!ok && error) {
-        console.warn('WhatsApp notification failed:', error);
-      }
+      // WhatsApp message is sent only after admin approves (see Admin Dashboard).
     }
 
     setIsSubmitting(false);

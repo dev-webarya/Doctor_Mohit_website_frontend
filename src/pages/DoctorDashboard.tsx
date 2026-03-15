@@ -17,10 +17,12 @@ import {
   serializePrescription,
   formatPrescriptionForWhatsApp,
   createPrescriptionPdf,
+  createPrescriptionPdfBlob,
 } from "@/utils/prescription";
-import { sendAppointmentConfirmation, sendPrescriptionNotification } from "@/lib/whatsappApi";
+import { uploadFileForUrl, sendPrescriptionPdfDocument } from "@/lib/whatsappApi";
 import { Helmet } from "react-helmet-async";
 import { useEffect, useState, useCallback } from "react";
+import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import { Plus, Trash2, Send, FileText, User, Phone, CheckCircle, Download } from "lucide-react";
 
@@ -44,6 +46,7 @@ const emptyMedication = (): PrescriptionItem => ({
 
 const DoctorDashboard = () => {
   const { data, actions } = useAppData();
+  const { toast } = useToast();
   const [sendingWa, setSendingWa] = useState<string | null>(null);
   const [doctor, setDoctor] = useState<StoredDoctor | null>(null);
   const [prescriptions, setPrescriptions] = useState<
@@ -117,42 +120,69 @@ const DoctorDashboard = () => {
 
   const sendViaWhatsApp = async (apptId: string) => {
     const appt = data.appointments.find((a) => a.id === apptId);
-    const patient = appt
-      ? data.patients.find((p) => p.id === appt.patientId)
-      : undefined;
+    const patient = appt ? data.patients.find((p) => p.id === appt.patientId) : undefined;
     if (!patient?.phone?.trim()) return;
     const meds = getMedications(apptId);
     const valid = meds.filter((m) => m.medicineName?.trim());
     if (valid.length === 0) return;
     savePrescription(apptId);
-    const patientName = `${patient!.firstName} ${patient!.lastName}`.trim();
+    const patientName = `${patient.firstName} ${patient.lastName}`.trim();
     const dateTime = appt ? `${appt.date} ${appt.time}` : new Date().toLocaleDateString();
     const docName = appt?.doctorName ?? doctor?.name ?? "Doctor";
 
     setSendingWa(apptId);
-    // Try API first (prescription notification); fallback to wa.me if API key missing or template not available
-    const apiResult = await sendPrescriptionNotification({
-      to: patient.phone,
-      patientName,
-      doctorName: docName,
+
+    const { blob, filename } = createPrescriptionPdfBlob(
+      valid,
+      docName,
       dateTime,
-    });
-    if (apiResult.ok) {
-      actions.markPrescriptionSent(apptId);
-    } else {
-      const msg = formatPrescriptionForWhatsApp(
-        valid,
-        docName,
-        dateTime,
-        patientName,
-        appt?.patientPrefix,
-        appt?.diagnosisSummary,
-      );
-      const phone = patient.phone.replace(/\D/g, "");
-      const waPhone = phone.startsWith("91") ? phone : `91${phone}`;
-      window.open(`https://wa.me/${waPhone}?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
-      actions.markPrescriptionSent(apptId);
+      patientName,
+      appt?.patientPrefix,
+      appt?.diagnosisSummary,
+    );
+    const pdfFile = new File([blob], filename, { type: "application/pdf" });
+    const fullPrescriptionText = formatPrescriptionForWhatsApp(
+      valid,
+      docName,
+      dateTime,
+      patientName,
+      appt?.patientPrefix,
+      appt?.diagnosisSummary,
+    );
+
+    const upload = await uploadFileForUrl(pdfFile);
+    if (upload.ok && upload.url) {
+      const sent = await sendPrescriptionPdfDocument({
+        to: patient.phone,
+        documentUrl: upload.url,
+        filename,
+        caption: "Your prescription from Care & Cure Centre.",
+      });
+      if (sent.ok) {
+        toast({
+          title: "Prescription sent",
+          description: "PDF prescription was sent to the patient's WhatsApp. No further action needed.",
+        });
+        actions.markPrescriptionSent(apptId);
+        setSendingWa(null);
+        return;
+      }
     }
+
+    const waPhone = patient.phone.replace(/\D/g, "").startsWith("91") ? patient.phone.replace(/\D/g, "") : `91${patient.phone.replace(/\D/g, "")}`;
+    window.open(`https://wa.me/${waPhone}?text=${encodeURIComponent(fullPrescriptionText)}`, "_blank", "noopener,noreferrer");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    const reason = !upload.ok ? upload.error : "API may not support document messages.";
+    toast({
+      title: "PDF not sent automatically",
+      description: reason + " Patient chat opened with full prescription text — you can send as-is or attach the downloaded PDF.",
+      variant: "destructive",
+    });
+    actions.markPrescriptionSent(apptId);
     setSendingWa(null);
   };
 

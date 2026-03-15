@@ -60,18 +60,14 @@ export function formatPrescriptionForWhatsApp(
   return lines.join("\n");
 }
 
-export function createPrescriptionPdf(
+function buildPrescriptionPdf(
+  doc: jsPDF,
   items: PrescriptionItem[],
   doctorName: string,
   date: string,
-  patientName: string,
-  patientPrefix?: string,
+  fullName: string,
   diagnosisSummary?: string
 ): void {
-  const doc = new jsPDF();
-  const prefix = patientPrefix?.trim() ? `${patientPrefix.trim()} ` : "";
-  const fullName = prefix + patientName;
-
   let y = 20;
 
   doc.setFontSize(16);
@@ -131,10 +127,41 @@ export function createPrescriptionPdf(
     y += 4;
     doc.setFontSize(11);
   });
+}
 
+/** Returns prescription PDF as a Blob and suggested filename (for sharing or download). */
+export function createPrescriptionPdfBlob(
+  items: PrescriptionItem[],
+  doctorName: string,
+  date: string,
+  patientName: string,
+  patientPrefix?: string,
+  diagnosisSummary?: string
+): { blob: Blob; filename: string } {
+  const doc = new jsPDF();
+  const prefix = patientPrefix?.trim() ? `${patientPrefix.trim()} ` : "";
+  const fullName = prefix + patientName;
+  buildPrescriptionPdf(doc, items, doctorName, date, fullName, diagnosisSummary);
+  const blob = doc.output("blob");
   const safePatient = fullName.replace(/[^a-z0-9]+/gi, "_");
   const safeDate = date.replace(/[^0-9]+/g, "");
   const filename = `prescription_${safePatient}_${safeDate}.pdf`;
+  return { blob, filename };
+}
 
-  doc.save(filename);
+export function createPrescriptionPdf(
+  items: PrescriptionItem[],
+  doctorName: string,
+  date: string,
+  patientName: string,
+  patientPrefix?: string,
+  diagnosisSummary?: string
+): void {
+  const prefix = patientPrefix?.trim() ? `${patientPrefix.trim()} ` : "";
+  const fullName = prefix + patientName;
+  const doc = new jsPDF();
+  buildPrescriptionPdf(doc, items, doctorName, date, fullName, diagnosisSummary);
+  const safePatient = fullName.replace(/[^a-z0-9]+/gi, "_");
+  const safeDate = date.replace(/[^0-9]+/g, "");
+  doc.save(`prescription_${safePatient}_${safeDate}.pdf`);
 }
